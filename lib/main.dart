@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sandbox/router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -12,7 +13,9 @@ Future<void> main() async {
     url: dotenv.env['SUPABASE_URL'] ?? '',
   );
 
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {

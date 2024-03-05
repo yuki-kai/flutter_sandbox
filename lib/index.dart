@@ -19,7 +19,7 @@ class IndexPage extends StatelessWidget {
               size: 24.0,
             ),
             title: const Text(
-              'title',
+              'TODOリスト',
               style: TextStyle(color: Colors.black, fontSize: 18.0),
             ),
             trailing: const Icon(Icons.navigate_next),
