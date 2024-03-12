@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sandbox/models/todo_model.dart';
+import 'package:flutter_sandbox/models/todo_model/todo_model.dart';
+import 'package:flutter_sandbox/repositories/todo_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,6 +13,7 @@ class ListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final supabase = Supabase.instance.client;
+    final _todoRepository = TodoRepository();
 
     return Scaffold(
       appBar: AppBar(
@@ -19,8 +21,7 @@ class ListPage extends ConsumerWidget {
         title: const Text('TODO'),
       ),
       body: StreamBuilder(
-        // stream: supabase.from('todos').stream(primaryKey: ['id']),
-        stream: (new Todo()).getAll(),
+        stream: _todoRepository.getAll(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -38,10 +39,7 @@ class ListPage extends ConsumerWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () async => {
-                    await supabase
-                        .from('todos')
-                        .delete()
-                        .match({'id': todo['id']}),
+                    await _todoRepository.delete(todo['id']),
                   },
                 ),
               ));
