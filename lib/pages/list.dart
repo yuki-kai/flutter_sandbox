@@ -76,18 +76,13 @@ class ListPage extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () async {
-                        try {
-                          await supabase.from('todos').insert({
-                            'title': title,
-                            'description': description,
-                            'is_completed': false,
-                          });
-                        } catch (e) {
-                          print('===== エラー =====');
-                          print(e);
-                        } finally {
-                          context.pop();
-                        }
+                        final todo = Todo.fromJson({
+                          'title': title,
+                          'description': description,
+                          'is_completed': false,
+                        });
+                        await _todoRepository.insert(todo);
+                        context.pop();
                       },
                       child: const Text('追加'),
                     ),
